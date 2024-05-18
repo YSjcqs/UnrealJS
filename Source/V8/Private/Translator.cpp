@@ -1,6 +1,5 @@
 #include "Translator.h"
 #include "Engine/UserDefinedStruct.h"
-#include "Launch/Resources/Version.h"
 
 namespace v8
 {
