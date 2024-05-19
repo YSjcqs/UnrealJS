@@ -801,9 +801,9 @@ TArray<UField*> UJavascriptLibrary::GetFields(const UObject* Object, bool bInclu
 	return Fields;
 }
 
-TArray<FJavscriptProperty> UJavascriptLibrary::GetStructProperties(const FString StructName, bool bIncludeSuper)
+TArray<FJavascriptProperty> UJavascriptLibrary::GetStructProperties(const FString StructName, bool bIncludeSuper)
 {
-	TArray<FJavscriptProperty> Properties;
+	TArray<FJavascriptProperty> Properties;
 
 #if ENGINE_MAJOR_VERSION >= 5 && ENGINE_MINOR_VERSION >= 1
 	UStruct* Struct = FindFirstObject<UStruct>(*StructName);
@@ -820,7 +820,7 @@ TArray<FJavscriptProperty> UJavascriptLibrary::GetStructProperties(const FString
 			// Make sure functions also do their parameters and children first
 			if (FProperty* Property = CastField<FProperty>(Field))
 			{
-				FJavscriptProperty JavascriptProperty;
+				FJavascriptProperty JavascriptProperty;
 
 				FString Type = Property->GetCPPType();
 				if (auto p = CastField<FArrayProperty>(Property))

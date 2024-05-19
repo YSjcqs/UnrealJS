@@ -172,13 +172,19 @@ void FJavascriptEditorModule::Bootstrap()
 
 		FEditorScriptExecutionGuard ScriptGuard;
 
-		Context->RunFile("editor.js");
+		Context->RunFile("editor-bootstrap.js");
 
 		bRegistered = true;
 
 		FCoreDelegates::OnPreExit.AddRaw(this, &FJavascriptEditorModule::Unregister);
 
 		GEditor->GetTimerManager()->SetTimer(TimerHandle_GarbageCollect, FTimerDelegate::CreateRaw(this, &FJavascriptEditorModule::GarbageCollect), 60.f, true);
+
+		const UJavascriptSettings* JavascriptSettings = GetDefault<UJavascriptSettings>();
+		if (JavascriptSettings && JavascriptSettings->bAutoExportTs)
+		{
+			Context->RunScript("JavascriptEditorLibrary.DefaultExportTs()", true);
+		}
 	}
 #endif
 }

@@ -74,6 +74,7 @@
 #include "IPAddress.h"
 #include "UObject/SavePackage.h"
 #include "CreateBlueprintFromActorDialog.h"
+#include "JavascriptSettings.h"
 
 #if WITH_EDITOR
 ULandscapeInfo* UJavascriptEditorLibrary::GetLandscapeInfo(ALandscape* Landscape, bool bSpawnNewActor)
@@ -1712,6 +1713,34 @@ FString UJavascriptEditorLibrary::GetIPAddress()
 	}
 
 	return IPAddress;
+}
+
+bool UJavascriptEditorLibrary::DefaultExportTs()
+{
+	const UJavascriptSettings* JavascriptSettings = GetDefault<UJavascriptSettings>();
+	if(JavascriptSettings)
+	{
+		FString Path = FPaths::ProjectDir() / JavascriptSettings->ExportTsDir;
+		if(ExportTsFromJs(Path))
+		{
+			return true;
+		}
+	}
+	UE_LOG(LogNavigation, Error, TEXT("Failed to export ts!"));
+	return false;
+}
+
+bool UJavascriptEditorLibrary::ExportTsFromJs(const FString& ExportDir)
+{
+	bool bExportResult = false;
+	IJavascriptEditorModule* JSEditorModule = FModuleManager::GetModulePtr<IJavascriptEditorModule>("JavascriptEditor");
+	if(JSEditorModule)
+	{
+		UJavascriptContext* JSContext = JSEditorModule->GetJavascriptContext();
+		if (JSContext) bExportResult = JSContext->WriteDTS(ExportDir / TEXT("typings") / TEXT("ue.d.ts"), false);
+		if (bExportResult) JSContext->WriteAliases(ExportDir / TEXT("aliases.js"));
+	}
+	return bExportResult;
 }
 
 #endif

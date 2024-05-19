@@ -243,7 +243,7 @@ struct FJavascriptInternetAddr
 };
 
 USTRUCT(BlueprintType)
-struct FJavscriptProperty
+struct FJavascriptProperty
 {
 	GENERATED_BODY()
 
@@ -582,7 +582,7 @@ public:
 	static TArray<UField*> GetFields(const UObject* Object, bool bIncludeSuper);
 
 	UFUNCTION(BlueprintCallable, Category = "Scripting | Javascript")
-	static TArray<FJavscriptProperty> GetStructProperties(const FString StructName, bool bIncludeSuper);
+	static TArray<FJavascriptProperty> GetStructProperties(const FString StructName, bool bIncludeSuper);
 
 	UFUNCTION(BlueprintCallable, Category = "Scripting | Javascript")
 	static TArray<FString> GetEnumListByEnumName(const FString EnumName);

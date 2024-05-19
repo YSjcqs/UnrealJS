@@ -617,5 +617,11 @@ class JAVASCRIPTEDITOR_API UJavascriptEditorLibrary : public UBlueprintFunctionL
 
 	UFUNCTION(BlueprintCallable, Category = "Scripting | Javascript")
 	static FString GetIPAddress();
+
+	UFUNCTION(BlueprintCallable, Category = "Scripting | Javascript")
+	static bool DefaultExportTs();
+
+	UFUNCTION(BlueprintCallable, Category = "Scripting | Javascript")
+	static bool ExportTsFromJs(const FString& ExportDir);
 #endif
 };

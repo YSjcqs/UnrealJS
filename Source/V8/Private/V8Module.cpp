@@ -224,6 +224,8 @@ public:
 	/** IModuleInterface implementation */
 	virtual void StartupModule() override
 	{
+		const UJavascriptSettings& Settings = *GetDefault<UJavascriptSettings>();
+
 		Paths.Add(GetGameScriptsDirectory());
 		//@HACK : Dirty hacks
 		Paths.Add(GetPluginScriptsDirectory());
@@ -232,9 +234,13 @@ public:
 		Paths.Add(GetPluginScriptsDirectory4());
 		Paths.Add(GetPakPluginScriptsDirectory());
 
-		const UJavascriptSettings& Settings = *GetDefault<UJavascriptSettings>();
-		Settings.Apply();
+		for (const FString& WatchExecDir : Settings.WatchExecDirList)
+		{
+			const FString Path = FPaths::ProjectDir() / WatchExecDir;
+			Paths.Add(Path);
+		}
 
+		Settings.Apply();
 		FCoreUObjectDelegates::GetPreGarbageCollectDelegate().AddRaw(this, &FV8Module::OnPreGarbageCollection);
 
 		V8::InitializeICUDefaultLocation(nullptr);
